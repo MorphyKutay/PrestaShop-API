@@ -1,0 +1,24 @@
+# PrestaShop API .htaccess
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # API isteklerini api.php'ye yönlendir
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ api.php [QSA,L]
+</IfModule>
+
+# Güvenlik başlıkları
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# Dosya erişimini engelle
+<FilesMatch "\.(md|json|lock)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
